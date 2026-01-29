@@ -10,8 +10,6 @@ export default function CreatePaste() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'; // fallback for local dev
-
   const handleSubmit = async () => {
     if (!content.trim()) {
       setError('Content is required');
@@ -23,7 +21,7 @@ export default function CreatePaste() {
     setResult(null);
 
     try {
-      const res = await axios.post(`${apiUrl}/api/pastes`, {
+      const res = await axios.post('/api/pastes', {
         content: content.trim(),
         ttl_seconds: ttl_seconds ? Number(ttl_seconds) : undefined,
         max_views: max_views ? Number(max_views) : undefined,
@@ -50,6 +48,8 @@ export default function CreatePaste() {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           sx={{ mb: 3 }}
+          error={!!error && !content.trim()}
+          helperText={error && !content.trim() ? 'This field is required' : ''}
         />
 
         <Box sx={{ display: 'flex', gap: 3, mb: 3 }}>
@@ -59,6 +59,7 @@ export default function CreatePaste() {
             value={ttl_seconds}
             onChange={(e) => setTtlSeconds(e.target.value)}
             fullWidth
+            InputProps={{ inputProps: { min: 1 } }}
           />
           <TextField
             label="Max views (optional)"
@@ -66,6 +67,7 @@ export default function CreatePaste() {
             value={max_views}
             onChange={(e) => setMaxViews(e.target.value)}
             fullWidth
+            InputProps={{ inputProps: { min: 1 } }}
           />
         </Box>
 
@@ -82,9 +84,9 @@ export default function CreatePaste() {
           <Alert severity="success" sx={{ mt: 3 }}>
             Paste created! Share this link:<br />
             <strong>
-              <a 
-                href={`/p/${result.id}`} 
-                target="_blank" 
+              <a
+                href={`/p/${result.id}`}
+                target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: '#90caf9', textDecoration: 'underline' }}
               >

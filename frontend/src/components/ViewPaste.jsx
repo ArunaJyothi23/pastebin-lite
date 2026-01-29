@@ -9,12 +9,10 @@ export default function ViewPaste() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'; // fallback for local
-
   useEffect(() => {
     const fetchPaste = async () => {
       try {
-        const res = await axios.get(`${apiUrl}/api/pastes/${id}`);
+        const res = await axios.get(`/api/pastes/${id}`);
         setPaste(res.data);
         setError('');
       } catch (err) {
@@ -50,7 +48,7 @@ export default function ViewPaste() {
 
         <Box
           sx={{
-            bgcolor: 'grey.100',
+            // bgcolor: 'grey.100',
             p: 3,
             borderRadius: 1,
             whiteSpace: 'pre-wrap',
