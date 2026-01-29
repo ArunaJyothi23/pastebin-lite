@@ -1,5 +1,3 @@
-
-
 {
   "version": 2,
   "builds": [
@@ -21,12 +19,8 @@
       "dest": "backend/server.js"
     },
     {
-      "src": "/p/(.*)",
-      "dest": "/index.html"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/frontend/dist/index.html"
     }
   ]
 }
