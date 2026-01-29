@@ -10,6 +10,8 @@ export default function CreatePaste() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'; // fallback for local dev
+
   const handleSubmit = async () => {
     if (!content.trim()) {
       setError('Content is required');
@@ -21,7 +23,7 @@ export default function CreatePaste() {
     setResult(null);
 
     try {
-      const res = await axios.post('/api/pastes', {
+      const res = await axios.post(`${apiUrl}/api/pastes`, {
         content: content.trim(),
         ttl_seconds: ttl_seconds ? Number(ttl_seconds) : undefined,
         max_views: max_views ? Number(max_views) : undefined,
@@ -82,8 +84,9 @@ export default function CreatePaste() {
             <strong>
               <a 
                 href={`/p/${result.id}`} 
+                target="_blank" 
                 rel="noopener noreferrer"
-                style={{ color: '#90caf9', textDecoration: 'underline', cursor: 'pointer' }}
+                style={{ color: '#90caf9', textDecoration: 'underline' }}
               >
                 {result.url}
               </a>
